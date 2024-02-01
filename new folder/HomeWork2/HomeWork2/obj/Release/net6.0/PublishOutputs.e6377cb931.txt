@@ -1,0 +1,11 @@
+C:\Users\משתמש\OneDrive\Desktop\התמחות מערכות מידע\ServerSide\HomeWork2\HomeWork2\obj\Release\net6.0\PubTmp\Out\HomeWork2.exe
+C:\Users\משתמש\OneDrive\Desktop\התמחות מערכות מידע\ServerSide\HomeWork2\HomeWork2\obj\Release\net6.0\PubTmp\Out\appsettings.Development.json
+C:\Users\משתמש\OneDrive\Desktop\התמחות מערכות מידע\ServerSide\HomeWork2\HomeWork2\obj\Release\net6.0\PubTmp\Out\appsettings.json
+C:\Users\משתמש\OneDrive\Desktop\התמחות מערכות מידע\ServerSide\HomeWork2\HomeWork2\obj\Release\net6.0\PubTmp\Out\HomeWork2.dll
+C:\Users\משתמש\OneDrive\Desktop\התמחות מערכות מידע\ServerSide\HomeWork2\HomeWork2\obj\Release\net6.0\PubTmp\Out\HomeWork2.deps.json
+C:\Users\משתמש\OneDrive\Desktop\התמחות מערכות מידע\ServerSide\HomeWork2\HomeWork2\obj\Release\net6.0\PubTmp\Out\HomeWork2.runtimeconfig.json
+C:\Users\משתמש\OneDrive\Desktop\התמחות מערכות מידע\ServerSide\HomeWork2\HomeWork2\obj\Release\net6.0\PubTmp\Out\HomeWork2.pdb
+C:\Users\משתמש\OneDrive\Desktop\התמחות מערכות מידע\ServerSide\HomeWork2\HomeWork2\obj\Release\net6.0\PubTmp\Out\Microsoft.OpenApi.dll
+C:\Users\משתמש\OneDrive\Desktop\התמחות מערכות מידע\ServerSide\HomeWork2\HomeWork2\obj\Release\net6.0\PubTmp\Out\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\משתמש\OneDrive\Desktop\התמחות מערכות מידע\ServerSide\HomeWork2\HomeWork2\obj\Release\net6.0\PubTmp\Out\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\משתמש\OneDrive\Desktop\התמחות מערכות מידע\ServerSide\HomeWork2\HomeWork2\obj\Release\net6.0\PubTmp\Out\Swashbuckle.AspNetCore.SwaggerUI.dll
