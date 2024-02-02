@@ -35,8 +35,15 @@ namespace HomeWork2.Controllers
         [HttpPost]
         public bool Post([FromBody] Flat flat)
         {
+            //flat.Price = flat.Price;
+            //flat.Id = flat.Id;
+            //flat.City = flat.City;
+            //flat.Address = flat.Address;
+            //flat.Numbers_of_rooms = flat.Numbers_of_rooms;
             return flat.Insert();
         }
+
+
 
         // PUT api/<FlatsController>/5
         [HttpPut("{id}")]

@@ -437,19 +437,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\משתמש\\.nuget\\packages\\": {}
+    "C:\\Users\\talhi\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\משתמש\\OneDrive\\Desktop\\התמחות מערכות מידע\\ServerSide\\HomeWork2\\HomeWork2\\HomeWork2.csproj",
+      "projectUniqueName": "C:\\Users\\talhi\\Desktop\\Internet2\\GitHub\\ServerSideCourse\\Airbnb\\airbnbServer\\HomeWork2\\HomeWork2.csproj",
       "projectName": "HomeWork2",
-      "projectPath": "C:\\Users\\משתמש\\OneDrive\\Desktop\\התמחות מערכות מידע\\ServerSide\\HomeWork2\\HomeWork2\\HomeWork2.csproj",
-      "packagesPath": "C:\\Users\\משתמש\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\משתמש\\OneDrive\\Desktop\\התמחות מערכות מידע\\ServerSide\\HomeWork2\\HomeWork2\\obj\\",
+      "projectPath": "C:\\Users\\talhi\\Desktop\\Internet2\\GitHub\\ServerSideCourse\\Airbnb\\airbnbServer\\HomeWork2\\HomeWork2.csproj",
+      "packagesPath": "C:\\Users\\talhi\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\talhi\\Desktop\\Internet2\\GitHub\\ServerSideCourse\\Airbnb\\airbnbServer\\HomeWork2\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\משתמש\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\talhi\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
