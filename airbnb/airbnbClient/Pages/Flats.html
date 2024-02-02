@@ -23,10 +23,12 @@
             // חיווט כפתור סאבמיט
             $("#FormId").submit(submitFlat);
 
+            //חיווט הולידציה של הבחירה של העיר מתוך הרשימה
+            $('#city').on('input', validateCitySelection);
+
+
             getFlats();
 
-            //Check
-            //comment 
         });
 
        
@@ -77,6 +79,8 @@
             console.log(errorFromServer);
         }
 
+      
+
         function submitFlat() {
             
             let newFlat = {
@@ -85,15 +89,17 @@
                 Address: $("#flatAddress").val(),
                 Price: $("#flatPrice").val(),
                 Numbers_of_rooms: $("#NumOfRoom").val()
-                
+
             }
 
             api = server + "api/Flats";
 
-            ajaxCall("POST", api, JSON.stringify(newFlat), postSCB, postECB);
 
+            ajaxCall("POST", api, JSON.stringify(newFlat), postSCB, postECB);
+            
 
         }
+        
         // success callback function
         function postSCB(objectFromServer) {
 
@@ -105,6 +111,24 @@
             console.log(errorFromServer);
         }
 
+        //check the chose of the cities data list option !
+        function validateCitySelection() {
+            var enteredValue = $(this).val();
+            var optionExists = false;
+            $('#cities option').each(function () {
+                if ($(this).val() === enteredValue) {
+                    optionExists = true;
+                    return false; // Exit the loop if option found
+                }
+            });
+            if (!optionExists) {
+                $(this).get(0).setCustomValidity('Please select a city from the list.');
+            } else {
+                $(this).get(0).setCustomValidity('');
+            }
+        }
+
+
     </script>
 </head>
 <body>
@@ -114,7 +138,7 @@
         <h4>Enter flat details</h4>
         <form id="FormId">
             Id <span style="color:red">*</span> <input id="flatid" type="number" placeholder="Flat id" required /> <br /><br/>
-            Choose a city <span style="color:red">*</span> <input list="cities" name="city" id="city" required> <br /><br/>
+            Choose a city <span style="color:red">*</span> <input list="cities" name="city" id="city" placeholder="Chose a city" required> <br /><br/>
 
             <datalist id="cities">
                 <option value="New York City">
