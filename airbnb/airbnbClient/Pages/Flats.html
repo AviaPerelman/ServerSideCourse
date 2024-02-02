@@ -29,11 +29,7 @@
             //comment 
         });
 
-
-        function submitFlat() {
-            return false;
-        }
-
+       
 
         function getFlats() {
             api = server + "api/Flats";
@@ -96,6 +92,7 @@
 
             ajaxCall("POST", api, JSON.stringify(newFlat), postSCB, postECB);
 
+
         }
         // success callback function
         function postSCB(objectFromServer) {
@@ -121,7 +118,7 @@
 
             <datalist id="cities">
                 <option value="New York City">
-                <option value="Tal Aviv">
+                <option value="Tel Aviv">
                 <option value="Paris">
                 <option value="Rome">
                 <option value="London">

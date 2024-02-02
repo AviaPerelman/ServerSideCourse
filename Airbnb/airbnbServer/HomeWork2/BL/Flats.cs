@@ -27,13 +27,8 @@
         public string City { get => city; set => city = value; }
         public string Address { get => address; set => address = value; }
         public int Numbers_of_rooms { get => numbers_of_rooms; set => numbers_of_rooms = value; }
-        public double Price
-        {
-            get => price;
-
-            set { price = Discount(value); }
-        }
-
+        public double Price {get => price; set => price = value; }
+        
 
         public bool Insert()
         {
@@ -45,22 +40,27 @@
                 }
             }
 
+            if(this.numbers_of_rooms > 1 && this.price > 100 )
+            this.price *= 0.9;
+
             FlatsList.Add(this);
             return true;
         }
 
+      
+
         public List<Flat> Read() => FlatsList;
 
-        public double Discount(double price)
-        {
-            if (numbers_of_rooms > 1 && price > 100)
-            {
-                price *= 0.9;
-            }
+        //public double Discount(double price)
+        //{
+        //    if (numbers_of_rooms > 1 && price > 100)
+        //    {
+        //        price *= 0.9;
+        //    }
 
-            return price;
+        //    return price;
 
-        }
+        //}
 
         public List<Flat> ReadByPriceAndCity(string city, double maxPrice)
         {
