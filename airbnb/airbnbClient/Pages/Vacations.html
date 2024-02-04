@@ -34,7 +34,7 @@
         });
 
         function submitVacation() {
-
+            
             let newVacation = {
                 id: $("#vacationid").val(),
                 userId: $("#userid").val(),
@@ -43,7 +43,7 @@
                 endDate: $("#end").val(),
 
             }
-            
+
 
             api = server + "api/Vacations";
 
@@ -55,7 +55,8 @@
 
         // success callback function
         function postSCB(objectFromServer) {
-            console.log(objectFromServer)
+            console.log(objectFromServer);
+
         }
 
         // error callback function
@@ -65,9 +66,17 @@
 
 
         function getVacations() {
+
+           
+
+            
+
             api = server + "api/Vacations";
 
             ajaxCall("GET", api, "", getSCB, getECB);
+
+
+            
         }
 
         function getECB(errorFromServer) {
@@ -77,13 +86,22 @@
         // success callback function
         function getSCB(vacationsList) {
 
+            let user_id_input = $("#useridInput").val();
 
-            let vacationsContainer = document.getElementById("footer");
+
+            let vacationsContainer = document.getElementById("divContainer");
 
             vacationsContainer.innerHTML = "";
+            
 
+            
+
+            vacationsContainer
+
+           
             let vacationElements = vacationsList.map(function (vacation) {
-                if (vacation.userId === $("#useridInput").val()) {
+                if (vacation.userId == user_id_input) {
+
 
                     let newDiv = document.createElement('div');
 
@@ -91,15 +109,19 @@
 
                     newDiv.innerHTML = tempVacation;
 
-                    return newDiv;
+                    vacationsContainer.appendChild(newDiv)
 
-                    vacationElements.forEach(function (div) {
-                        vacationsContainer.appendChild(div);
-                    });
-                }
- 
+                    // return newDiv;
+
+                } 
+                //vacationElements.forEach(function (div) {
+                //    ;
+                //});         
+                
             })
-            }
+
+            
+        }
 
 
     </script>
@@ -119,7 +141,7 @@
 
             <input id="submitVacation" type="submit" value="submit" />
             <br />
-           
+
         </form>
 
 
@@ -127,6 +149,9 @@
     <div id="footer">
         Enter user id: <input type="number" id="useridInput" />
         <button id="vacations" onclick="getVacations()">Get all my vacations</button>
+        <div id="divContainer">
+
+        </div>
     </div>
 </body>
 </html>
