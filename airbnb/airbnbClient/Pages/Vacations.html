@@ -3,8 +3,130 @@
 <head>
     <meta charset="utf-8" />
     <title></title>
-</head>
-<body>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+            crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="../JS/ajax.js"></script>
 
+    <script>
+
+
+        $(document).ready(function () {
+            // קישור הקליינט לשרת
+            let port = "7207";
+            server = `https://localhost:${port}/`;
+
+            // Retrieve the array of selected flat IDs from sessionStorage
+            let selectedFlatIds = JSON.parse(sessionStorage.getItem('selectedFlatIds')) || [];
+
+            // Populate the datalist with flat IDs
+            let datalist = $("#flatIdsList");
+            selectedFlatIds.forEach(function (flatId) {
+                datalist.append(`<option value="${flatId}">`);
+            });
+
+            // חיווט כפתור סאבמיט
+            $("#FormId").submit(submitVacation);
+
+        });
+
+        function submitVacation() {
+
+            let newVacation = {
+                id: $("#vacationid").val(),
+                userId: $("#userid").val(),
+                flatId: $("#flatid").val(),
+                startDate: $("#start").val(),
+                endDate: $("#end").val(),
+
+            }
+            
+
+            api = server + "api/Vacations";
+
+
+            ajaxCall("POST", api, JSON.stringify(newVacation), postSCB, postECB);
+
+
+        }
+
+        // success callback function
+        function postSCB(objectFromServer) {
+            console.log(objectFromServer)
+        }
+
+        // error callback function
+        function postECB(errorFromServer) {
+            console.log(errorFromServer);
+        }
+
+
+        function getVacations() {
+            api = server + "api/Vacations";
+
+            ajaxCall("GET", api, "", getSCB, getECB);
+        }
+
+        function getECB(errorFromServer) {
+            console.log(errorFromServer);
+
+        }
+        // success callback function
+        function getSCB(vacationsList) {
+
+
+            let vacationsContainer = document.getElementById("footer");
+
+            vacationsContainer.innerHTML = "";
+
+            let vacationElements = vacationsList.map(function (vacation) {
+                if (vacation.userId === $("#useridInput").val()) {
+
+                    let newDiv = document.createElement('div');
+
+                    let tempVacation = `Vacation detalis: Id: ${vacation.id} User Id: ${vacation.userId} FlatId: ${vacation.flatId} start date: ${vacation.startDate} end date: ${vacation.endDate}`
+
+                    newDiv.innerHTML = tempVacation;
+
+                    return newDiv;
+
+                    vacationElements.forEach(function (div) {
+                        vacationsContainer.appendChild(div);
+                    });
+                }
+ 
+            })
+            }
+
+
+    </script>
+</head>
+
+<body>
+    <div id="header">
+        <h4>Enter vacation details</h4>
+        <form id="FormId">
+            Vacation Id <span style="color:red">*</span> <input id="vacationid" type="number" placeholder="Vacation id" required /> <br /><br />
+            User Id <span style="color:red">*</span> <input id="userid" type="number" placeholder="User id" required /> <br /><br />
+            Choose a Flat-ID  <span style="color:red">*</span><input list="flatIdsList" id="flatid" type="number" placeholder="Flat id" required />
+            <datalist id="flatIdsList"></datalist>
+
+            Start Date: <input type="date" id="start" name="trip-start" /><br /><br />
+            End Date: <input type="date" id="end" name="trip-start" /><br /><br />
+
+            <input id="submitVacation" type="submit" value="submit" />
+            <br />
+           
+        </form>
+
+
+    </div>
+    <div id="footer">
+        Enter user id: <input type="number" id="useridInput" />
+        <button id="vacations" onclick="getVacations()">Get all my vacations</button>
+    </div>
 </body>
 </html>

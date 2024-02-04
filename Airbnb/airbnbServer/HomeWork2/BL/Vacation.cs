@@ -39,7 +39,9 @@
             get => endDate;
             set
             {
-                if (value > StartDate)
+                TimeSpan duration = value - StartDate;
+
+                if (value > StartDate && duration.TotalDays <= 20)
                 {
                     endDate = value;
                 }

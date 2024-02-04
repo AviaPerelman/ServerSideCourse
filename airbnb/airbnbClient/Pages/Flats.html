@@ -26,10 +26,10 @@
             //חיווט הולידציה של הבחירה של העיר מתוך הרשימה
             $('#city').on('input', validateCitySelection);
 
-
             getFlats();
 
         });
+
 
        
 
@@ -45,6 +45,8 @@
 
             let flatsContainer = document.getElementById("footer");
 
+            flatsContainer.innerHTML = "";
+
             let flatElements = flatsList.map(function (flat) {
                 
                 let newDiv = document.createElement('div');
@@ -56,6 +58,8 @@
                 // on click go to vacation page
 
                 flatBtn.addEventListener('click', function () {
+                    
+
                     location.href = "Vacations.html";
                 })
 
@@ -79,9 +83,9 @@
             console.log(errorFromServer);
         }
 
-      
 
-        function submitFlat() {
+        function submitFlat(event) {
+            event.preventDefault();
             
             let newFlat = {
                 id: $("#flatid").val(),
@@ -92,6 +96,16 @@
 
             }
 
+            let selectedFlatIds = JSON.parse(sessionStorage.getItem('selectedFlatIds')) || [];
+
+            // Add the new flatid to the array
+            selectedFlatIds.push(newFlat.id);
+
+            // Store the updated array in sessionStorage
+            sessionStorage.setItem('selectedFlatIds', JSON.stringify(selectedFlatIds));
+
+
+           
             api = server + "api/Flats";
 
 
@@ -104,6 +118,7 @@
         function postSCB(objectFromServer) {
 
             getFlats();
+            $("#FormId")[0].reset()
         }
 
         // error callback function
@@ -148,12 +163,12 @@
                 <option value="London">
             </datalist>
 
-            Address <span style="color:red">*</span> <input id="flatAddress" type="text" pattern="^[A-Za-z]{1,25}$"  oninvalid="this.setCustomValidity('Adress must be up to 25 chars')" oninput="this.setCustomValidity('')" placeholder="Address" required /> <br /><br/>
+            Address <span style="color:red">*</span> <input id="flatAddress" type="text" pattern="^[A-Za-z1-9]{1,25}$"  oninvalid="this.setCustomValidity('Adress must be up to 25 chars')" oninput="this.setCustomValidity('')" placeholder="Address" required /> <br /><br/>
             Price <span style="color:red">*</span> <input id="flatPrice" type="number" placeholder="Price $" required /> <br /><br/>
             Number of rooms <span style="color:red">*</span> <input id="flatnumOfRoom" type="number" min="1" max="8" oninvalid="this.setCustomValidity('Rooms must be up to 8')" oninput="this.setCustomValidity('')" placeholder="Numbers of rooms" required /><br />
             <input  type="submit" value="submit"/>
         </form>
-        
+       
         </div>
 
     <div id="footer"> </div>
