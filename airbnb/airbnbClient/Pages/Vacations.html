@@ -19,34 +19,41 @@
             let port = "7207";
             server = `https://localhost:${port}/`;
 
-            // Retrieve the array of selected flat IDs from sessionStorage
-            let selectedFlatIds = JSON.parse(sessionStorage.getItem('selectedFlatIds')) || [];
 
-            // Populate the datalist with flat IDs
-            let datalist = $("#flatIdsList");
-            selectedFlatIds.forEach(function (flatId) {
-                datalist.append(`<option value="${flatId}">`);
-            });
+
+
 
             // חיווט כפתור סאבמיט
             $("#FormId").submit(submitVacation);
 
-            let oldId = sessionStorage.getItem('key');
+            let holdId = sessionStorage.getItem('key');
 
-            $("#flatid").val(oldId);
-            //hhhhh
-            ///kk
+            $("#flatid").val(holdId);
+
 
         });
 
         function submitVacation() {
-            
+            let startDate = new Date($("#start").val());
+            let endDate = new Date($("#end").val());
+
+            let durationInMilliseconds = endDate - startDate;
+
+            // Convert milliseconds to days
+            let durationInDays = durationInMilliseconds / (1000 * 3600 * 24);
+
+            if (durationInDays > 20) {
+                alert("Error: The duration between the start and end dates cannot exceed 20 days.");
+                return; // Prevent further execution of the function
+            }
+
+
             let newVacation = {
                 id: $("#vacationid").val(),
                 userId: $("#userid").val(),
                 flatId: $("#flatid").val(),
-                startDate: $("#start").val(),
-                endDate: $("#end").val(),
+                startDate: startDate.toISOString(),
+                endDate: endDate.toISOString()
 
             }
 
@@ -79,7 +86,7 @@
             ajaxCall("GET", api, "", getSCB, getECB);
 
 
-            
+
         }
 
         function getECB(errorFromServer) {
@@ -92,15 +99,20 @@
             let vacationsContainer = document.getElementById("divContainer");
 
             vacationsContainer.innerHTML = "";
-            
+
 
             let vacationElements = vacationsList.map(function (vacation) {
+
+
+                let startDateNew = new Date(vacation.startDate).toISOString().slice(0, 10);
+                let endDateNew = new Date(vacation.endDate).toISOString().slice(0, 10);
+
 
 
 
                 let newDiv = document.createElement('div');
 
-                let tempVacation = `Vacation detalis: Id: ${vacation.id} User Id: ${vacation.userId} FlatId: ${vacation.flatId} start date: ${vacation.startDate} end date: ${vacation.endDate}`
+                let tempVacation = `Vacation detalis: Id: ${vacation.id} User Id: ${vacation.userId} FlatId: ${vacation.flatId} start date: ${startDateNew} end date: ${endDateNew}`
 
                 newDiv.innerHTML = tempVacation;
 
@@ -115,7 +127,6 @@
 
             });
 
-            
         }
 
 
@@ -128,10 +139,11 @@
         <form id="FormId">
             Vacation Id <span style="color:red">*</span> <input id="vacationid" type="number" placeholder="Vacation id" required /> <br /><br />
             User Id <span style="color:red">*</span> <input id="userid" type="number" placeholder="User id" required /> <br /><br />
-            Flat-ID  <span style="color:red">*</span> <input id="flatid" type="text" required />
+            Flat-ID  <span style="color:red">*</span> <input id="flatid" type="text" readonly required />
+            <br /><br />
 
-            Start Date: <input type="date" id="start" name="trip-start" /><br /><br />
-            End Date: <input type="date" id="end" name="trip-start" /><br /><br />
+            Start Date: <input type="date" id="start" name="trip-start" required /><br /><br />
+            End Date: <input type="date" id="end" name="trip-start" required /><br /><br />
 
             <input id="submitVacation" type="submit" value="submit" />
             <br />
@@ -141,7 +153,7 @@
 
     </div>
     <div id="footer">
-        
+
         <button id="vacations" onclick="getVacations()">Get all my vacations</button>
         <div id="divContainer">
 
