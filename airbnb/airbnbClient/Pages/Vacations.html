@@ -31,6 +31,12 @@
             // חיווט כפתור סאבמיט
             $("#FormId").submit(submitVacation);
 
+            let oldId = sessionStorage.getItem('key');
+
+            $("#flatid").val(oldId);
+            //hhhhh
+            ///kk
+
         });
 
         function submitVacation() {
@@ -67,9 +73,6 @@
 
         function getVacations() {
 
-           
-
-            
 
             api = server + "api/Vacations";
 
@@ -86,39 +89,31 @@
         // success callback function
         function getSCB(vacationsList) {
 
-            let user_id_input = $("#useridInput").val();
-
-
             let vacationsContainer = document.getElementById("divContainer");
 
             vacationsContainer.innerHTML = "";
             
 
-            
-
-            vacationsContainer
-
-           
             let vacationElements = vacationsList.map(function (vacation) {
-                if (vacation.userId == user_id_input) {
 
 
-                    let newDiv = document.createElement('div');
 
-                    let tempVacation = `Vacation detalis: Id: ${vacation.id} User Id: ${vacation.userId} FlatId: ${vacation.flatId} start date: ${vacation.startDate} end date: ${vacation.endDate}`
+                let newDiv = document.createElement('div');
 
-                    newDiv.innerHTML = tempVacation;
+                let tempVacation = `Vacation detalis: Id: ${vacation.id} User Id: ${vacation.userId} FlatId: ${vacation.flatId} start date: ${vacation.startDate} end date: ${vacation.endDate}`
 
-                    vacationsContainer.appendChild(newDiv)
+                newDiv.innerHTML = tempVacation;
 
-                    // return newDiv;
+                vacationsContainer.appendChild(newDiv)
 
-                } 
-                //vacationElements.forEach(function (div) {
-                //    ;
-                //});         
-                
-            })
+                return newDiv;
+
+
+                vacationElements.forEach(function (div) {
+                    vacationsContainer.appendChild(div);
+                });
+
+            });
 
             
         }
@@ -133,8 +128,7 @@
         <form id="FormId">
             Vacation Id <span style="color:red">*</span> <input id="vacationid" type="number" placeholder="Vacation id" required /> <br /><br />
             User Id <span style="color:red">*</span> <input id="userid" type="number" placeholder="User id" required /> <br /><br />
-            Choose a Flat-ID  <span style="color:red">*</span><input list="flatIdsList" id="flatid" type="number" placeholder="Flat id" required />
-            <datalist id="flatIdsList"></datalist>
+            Flat-ID  <span style="color:red">*</span> <input id="flatid" type="text" required />
 
             Start Date: <input type="date" id="start" name="trip-start" /><br /><br />
             End Date: <input type="date" id="end" name="trip-start" /><br /><br />
@@ -147,7 +141,7 @@
 
     </div>
     <div id="footer">
-        Enter user id: <input type="number" id="useridInput" />
+        
         <button id="vacations" onclick="getVacations()">Get all my vacations</button>
         <div id="divContainer">
 

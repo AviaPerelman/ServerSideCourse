@@ -58,12 +58,18 @@
                 // on click go to vacation page
 
                 flatBtn.addEventListener('click', function () {
-                    
+
+
+                    sessionStorage.setItem('key', `${flat.id}`);
 
                     location.href = "Vacations.html";
+
+
                 })
 
                 flatBtn.textContent = 'Order';
+
+
 
                 newDiv.innerHTML = tempFlat +"<br/>";
 
@@ -96,22 +102,9 @@
 
             }
 
-            let selectedFlatIds = JSON.parse(sessionStorage.getItem('selectedFlatIds')) || [];
-
-            // Add the new flatid to the array
-            selectedFlatIds.push(newFlat.id);
-
-            // Store the updated array in sessionStorage
-            sessionStorage.setItem('selectedFlatIds', JSON.stringify(selectedFlatIds));
-
-
-           
             api = server + "api/Flats";
-
-
             ajaxCall("POST", api, JSON.stringify(newFlat), postSCB, postECB);
             
-
         }
         
         // success callback function
