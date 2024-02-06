@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <title></title>
-
+    <link href="../CSS/FlatsCSS.css" rel="stylesheet" />
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
             integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
             crossorigin="anonymous"></script>
@@ -54,6 +54,8 @@
                 let tempFlat = `Flat detalis: Id: ${flat.id} Address: ${flat.address} City: ${flat.city} Price: ${flat.price} Numbers of rooms: ${flat.numbers_of_rooms}`
 
                 let flatBtn = document.createElement('button');
+                flatBtn.classList.add('dynamic-button');
+               
 
                 // on click go to vacation page
 
@@ -136,10 +138,6 @@
             }
         }
 
-       
-      
-
-
     </script>
 </head>
 <body>
@@ -148,8 +146,11 @@
     <div id="header">
         <h4>Enter flat details</h4>
         <form id="FormId">
-            Id <span style="color:red">*</span> <input id="flatid" type="number" placeholder="Flat id" required /> <br /><br/>
-            Choose a city <span style="color:red">*</span> <input list="cities" name="city" id="city" placeholder="Chose a city" required> <br /><br/>
+            <label id="label">Flat Id <span>*</span></label> 
+            <input id="flatid" type="number" placeholder="Flat id" required /> <br /><br/>
+            
+            <label id="label">Choose a city <span>*</span> </label> 
+            <input list="cities" name="city" id="city" placeholder="Chose a city" required> <br /><br/>
 
             <datalist id="cities">
                 <option value="New York City">
@@ -159,9 +160,14 @@
                 <option value="London">
             </datalist>
 
-            Address <span style="color:red">*</span> <input id="flatAddress" type="text" pattern="^[A-Za-z1-9]{1,25}$"  oninvalid="this.setCustomValidity('Adress must be up to 25 chars')" oninput="this.setCustomValidity('')" placeholder="Address" required /> <br /><br/>
-            Price <span style="color:red">*</span> <input id="flatPrice" type="number" placeholder="Price $" required /> <br /><br/>
-            Number of rooms <span style="color:red">*</span> <input id="flatnumOfRoom" type="number" min="1" max="8" oninvalid="this.setCustomValidity('Rooms must be up to 8')" oninput="this.setCustomValidity('')" placeholder="Numbers of rooms" required /><br />
+            <label id="label">Address <span>*</span> </label>
+            <input id="flatAddress" type="text" pattern="^[A-Za-z1-9]{1,25}$"  oninvalid="this.setCustomValidity('Adress must be up to 25 chars')" oninput="this.setCustomValidity('')" placeholder="Address" required /> <br /><br/>
+            
+            <label id="label">Price <span>*</span>  </label>
+            <input id="flatPrice" type="number" placeholder="Price $" required /> <br /><br/>
+            
+            <label id="label">Number of rooms <span>*</span></label> 
+             <input id="flatnumOfRoom" type="number" min="1" max="8" oninvalid="this.setCustomValidity('Rooms must be up to 8')" oninput="this.setCustomValidity('')" placeholder="Numbers of rooms" required /><br />
             <input  type="submit" value="submit"/>
         </form>
        
