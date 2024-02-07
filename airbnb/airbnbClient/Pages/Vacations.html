@@ -52,7 +52,18 @@
             else {
                 startInput.setCustomValidity("");
                 endInput.setCustomValidity("");
+                
+            }
+
+            if (endDate < startDate) {
+                startInput.setCustomValidity("The end date should be greater than the start date");
+                endInput.setCustomValidity("The end date should be greater than the start date");
                 return;
+            }
+            else {
+                startInput.setCustomValidity("");
+                endInput.setCustomValidity("");
+                
             }
 
         }
