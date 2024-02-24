@@ -1,0 +1,184 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link href="../css/VacationCss.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+            crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="../JS/ajax.js"></script>
+
+    <script>
+
+
+        $(document).ready(function () {
+            // קישור הקליינט לשרת
+            
+            server = "https://localhost:7207/";
+
+            // חיווט כפתור סאבמיט
+            $("#FormId").submit(submitVacation);
+
+            let holdId = sessionStorage.getItem('key');
+
+            document.getElementById('userid').value = JSON.parse(sessionStorage.getItem('userLoggedIn')).email;
+
+            $("#flatid").val(holdId);
+
+
+        });
+
+        function changeDate() {
+
+            let startDate = new Date($("#start").val());
+            let endDate = new Date($("#end").val());
+
+            let durationInMilliseconds = endDate - startDate;
+
+            // Convert milliseconds to days
+            let durationInDays = durationInMilliseconds / (1000 * 3600 * 24);
+
+            let startInput = document.getElementById("start");
+            let endInput = document.getElementById("end");
+
+            if (durationInDays > 20) {
+                // Set custom validity for the input elements
+                startInput.setCustomValidity("The duration between the start and end dates cannot exceed 20 days.");
+                endInput.setCustomValidity("The duration between the start and end dates cannot exceed 20 days.");
+                return;
+            }
+            else {
+                startInput.setCustomValidity("");
+                endInput.setCustomValidity("");
+                
+            }
+
+            if (endDate < startDate) {
+                startInput.setCustomValidity("The end date should be greater than the start date");
+                endInput.setCustomValidity("The end date should be greater than the start date");
+                return;
+            }
+            else {
+                startInput.setCustomValidity("");
+                endInput.setCustomValidity("");
+                
+            }
+
+        }
+
+
+        function submitVacation() {
+
+            let startDate = new Date($("#start").val());
+            let endDate = new Date($("#end").val());
+
+            let newVacation = {
+                id: $("#vacationid").val(),
+                userId: JSON.parse(sessionStorage.getItem('userLoggedIn')).email,
+                flatId: $("#flatid").val(),
+                startDate: startDate.toISOString(),
+                endDate: endDate.toISOString()
+
+            };
+
+
+            let api = server + "api/Vacations";
+
+            ajaxCall("POST", api, JSON.stringify(newVacation), postSCB, postECB);
+
+        }
+
+        // success callback function
+        function postSCB(objectFromServer) {
+            console.log(objectFromServer);
+
+        }
+
+        // error callback function
+        function postECB(errorFromServer) {
+            console.log(errorFromServer);
+        }
+
+
+        function getVacations() {
+            let api = server + "api/Vacations";
+            ajaxCall("GET", api, "", getSCB, getECB);
+
+        }
+
+        // error callback function
+        function getECB(errorFromServer) {
+            console.log(errorFromServer);
+
+        }
+        // success callback function
+        function getSCB(vacationsList) {
+
+            let vacationsContainer = document.getElementById("divContainer");
+
+            vacationsContainer.innerHTML = "";
+
+            let vacationElements = vacationsList.map(function (vacation) {
+
+
+                let startDateNew = new Date(vacation.startDate).toISOString().slice(0, 10);
+                let endDateNew = new Date(vacation.endDate).toISOString().slice(0, 10);
+
+
+                let newDiv = document.createElement('div');
+
+                let tempVacation = `Vacation detalis: Id: ${vacation.id} User Id: ${vacation.userId} FlatId: ${vacation.flatId} start date: ${startDateNew} end date: ${endDateNew}`
+
+                newDiv.innerHTML = tempVacation;
+
+                vacationsContainer.appendChild(newDiv)
+
+                return newDiv;
+
+            });
+
+        }
+
+    </script>
+</head>
+
+<body>
+    <div id="header">
+        <h4 style="text-align:center">Enter vacation details</h4>
+        <form id="FormId">
+            <label id="label">Vacation Id <span>*</span></label>
+            <input id="vacationid" type="number" placeholder="Vacation id" required /> <br /><br />
+
+            <label id="label">User Id <span>*</span></label>
+            <input id="userid" type="email" placeholder="User id" required readonly /> <br /><br />
+
+            <label id="label">Flat-ID <span>*</span></label>
+            <input id="flatid" type="text" readonly required />
+            <br /><br />
+
+            <label id="label">Start Date: <span>*</span></label>
+            <input type="date" id="start" name="trip-start" required /><br /><br />
+
+            <label id="label">End Date: <span>*</span></label>
+            <input type="date" id="end" oninput="changeDate()" name="trip-start" required /><br /><br />
+
+            <input id="submitVacation" type="submit" value="submit" />
+            <br />
+
+        </form>
+
+
+    </div>
+    <div id="footer">
+
+        <button id="vacations" onclick="getVacations()">Get all my vacations</button>
+        <div id="divContainer">
+
+        </div>
+    </div>
+</body>
+</html>

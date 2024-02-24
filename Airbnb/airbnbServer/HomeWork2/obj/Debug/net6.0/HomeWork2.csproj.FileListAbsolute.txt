@@ -128,3 +128,9 @@ C:\Users\משתמש\OneDrive\Desktop\ServerSideCourse\Airbnb\airbnbServer\HomeWo
 C:\Users\משתמש\OneDrive\Desktop\ServerSideCourse\Airbnb\airbnbServer\HomeWork2\obj\Debug\net6.0\HomeWork2.pdb
 C:\Users\משתמש\OneDrive\Desktop\ServerSideCourse\Airbnb\airbnbServer\HomeWork2\obj\Debug\net6.0\HomeWork2.genruntimeconfig.cache
 C:\Users\משתמש\OneDrive\Desktop\ServerSideCourse\Airbnb\airbnbServer\HomeWork2\obj\Debug\net6.0\ref\HomeWork2.dll
+C:\Users\talhi\Desktop\Internet2\GitHub\ServerSideCourse\Airbnb\airbnbServer\HomeWork2\bin\Debug\net6.0\System.Data.SqlClient.dll
+C:\Users\talhi\Desktop\Internet2\GitHub\ServerSideCourse\Airbnb\airbnbServer\HomeWork2\bin\Debug\net6.0\runtimes\win-arm64\native\sni.dll
+C:\Users\talhi\Desktop\Internet2\GitHub\ServerSideCourse\Airbnb\airbnbServer\HomeWork2\bin\Debug\net6.0\runtimes\win-x64\native\sni.dll
+C:\Users\talhi\Desktop\Internet2\GitHub\ServerSideCourse\Airbnb\airbnbServer\HomeWork2\bin\Debug\net6.0\runtimes\win-x86\native\sni.dll
+C:\Users\talhi\Desktop\Internet2\GitHub\ServerSideCourse\Airbnb\airbnbServer\HomeWork2\bin\Debug\net6.0\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+C:\Users\talhi\Desktop\Internet2\GitHub\ServerSideCourse\Airbnb\airbnbServer\HomeWork2\bin\Debug\net6.0\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll

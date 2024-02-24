@@ -14,7 +14,7 @@ namespace HomeWork2.Controllers
         public IEnumerable<Flat> Get()
         {
             Flat flat = new Flat();
-            return flat.Read();
+            return flat.ReadFlats();
         }
 
         [HttpGet("GetByPriceAndCity")]
@@ -33,11 +33,19 @@ namespace HomeWork2.Controllers
 
         // POST api/<FlatsController>
         [HttpPost]
-        public bool Post([FromBody] Flat flat)
+        public int Post([FromBody] Flat flat)
         {
-            
-            return flat.Insert();
+
+            int numEffected = flat.InsertFlat();
+            return numEffected;
         }
+
+        //[HttpGet("GetFlats")]
+        //public IEnumerable<Flat> GetFlats()
+        //{
+        //    Flat flat = new Flat();
+        //    return flat.ReadFlats();
+        //}
 
 
 

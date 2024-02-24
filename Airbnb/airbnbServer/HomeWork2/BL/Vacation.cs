@@ -1,9 +1,14 @@
-﻿namespace HomeWork2.BL
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace HomeWork2.BL
 {
     public class Vacation
     {
         int id;
-        int userId;
+        string userId;
         int flatId;
         DateTime startDate;
         DateTime endDate;
@@ -12,7 +17,7 @@
         static List<Vacation> vacationsList = new List<Vacation>();
 
         public Vacation() { }
-        public Vacation(int id, int userId, int flatId, DateTime startDate, DateTime endDate)
+        public Vacation(int id, string userId, int flatId, DateTime startDate, DateTime endDate)
         {
 
             Id = id;
@@ -23,13 +28,13 @@
         }
 
         public int Id { get => id; set => id = value; }
-        public int UserId { get => userId; set => userId = value; }
+        public string UserId { get => userId; set => userId = value; }
         public int FlatId
         {
             get => flatId;
             set
             {
-                flatId = CheckFlat(value);
+                flatId = value;
 
             }
         }
@@ -51,21 +56,23 @@
 
         }
 
-        public int CheckFlat(int value)
-        {
-            List<Flat> CheckFlats = Flat.FlatsList;
-            foreach (Flat item in CheckFlats)
-            {
-                if (item.Id == value)
-                {
-                    return value;
-                }
-            }
-            return -1;
-        }
+        //public int CheckFlat(int value)
+        //{
+        //    //check if the flat is exist need to do it on the dbs.
+        //    List<Flat> CheckFlats = Flat.FlatsList;
+        //    foreach (Flat item in CheckFlats)
+        //    {
+        //        if (item.Id == value)
+        //        {
+        //            return value;
+        //        }
+        //    }
+        //    return -1;
+        //}
 
         public bool Insert()
         {
+      
             if (this.flatId == -1 || this.endDate == DateTime.MinValue || IsRented(this))
             {
                 return false;
@@ -79,8 +86,8 @@
                 }
             }
 
-            vacationsList.Add(this);
-            return true;
+
+            return true; 
         }
 
         public bool IsRented(Vacation obj)
@@ -95,9 +102,17 @@
             return false;
         }
 
+        //public List<Vacation> Read()
+        //{
+        //    return vacationsList;
+        //}
+
         public List<Vacation> Read()
         {
-            return vacationsList;
+            DBservices dbs = new DBservices();
+
+            return dbs.ReadVacations();
+
         }
 
         public List<Vacation> ReadByDates(DateTime from, DateTime to)
@@ -111,6 +126,13 @@
                 }
             }
             return selectedItems;
+        }
+
+        public int InsertVacation()
+        {
+            DBservices dbs = new DBservices();
+            return dbs.Insert(this);
+
         }
     }
 }

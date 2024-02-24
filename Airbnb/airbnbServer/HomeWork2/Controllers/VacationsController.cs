@@ -10,6 +10,14 @@ namespace HomeWork2.Controllers
     public class VacationsController : ControllerBase
     {
         // GET: api/<VacationsController>
+        //[HttpGet]
+        //public IEnumerable<Vacation> Get()
+        //{
+        //    Vacation vacation = new Vacation();
+        //    return vacation.Read();
+        //}
+
+        // GET: api/<VacationsController>
         [HttpGet]
         public IEnumerable<Vacation> Get()
         {
@@ -33,9 +41,9 @@ namespace HomeWork2.Controllers
 
         // POST api/<VacationsController>
         [HttpPost]
-        public bool Post([FromBody] Vacation vacation)
+        public int Post([FromBody] Vacation vacation)
         {
-            return vacation.Insert();
+            return vacation.InsertVacation();
         }
 
         // PUT api/<VacationsController>/5

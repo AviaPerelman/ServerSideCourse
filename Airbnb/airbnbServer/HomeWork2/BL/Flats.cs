@@ -1,4 +1,10 @@
-﻿namespace HomeWork2.BL
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+
+namespace HomeWork2.BL
 {
     public class Flat
     {
@@ -43,12 +49,6 @@
 
         public bool Insert()
         {
-            //Logic Check ->
-
-            //if (numbers_of_rooms > 1 && price > 100)
-            //{
-            //    price *= 0.9;
-            //}
 
             foreach (var item in FlatsList)
             {
@@ -58,16 +58,14 @@
                 }
             }
 
-            //if(this.numbers_of_rooms > 1 && this.price > 100 )
-            //this.price *= 0.9;
 
             FlatsList.Add(this);
             return true;
         }
 
-      
 
-        public List<Flat> Read() => FlatsList;
+
+        //public List<Flat> Read() => FlatsList;
 
 
         public List<Flat> ReadByPriceAndCity(string city, double maxPrice)
@@ -80,5 +78,18 @@
             }
             return selectedList;
         }
+
+        public int InsertFlat()
+        {
+            DBservices dbs = new DBservices();
+            return dbs.Insert(this);
+        }
+
+        public List<Flat> ReadFlats()
+        {
+            DBservices dbs = new DBservices();
+            return dbs.ReadFlats();
+        }
+
     }
 }
