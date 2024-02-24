@@ -310,12 +310,63 @@ public class DBservices
 
     }
 
-    public List<User> ReadLoginUserByEmailAndPassword(string email ,int password)
+    //public List<User> ReadLoginUserByEmailAndPassword(string email ,int password)
+    //{
+    //    SqlConnection con;
+    //    SqlCommand cmd;
+    //    List<User> userList = new List<User>();
+
+
+    //    try
+    //    {
+    //        con = connect("myProjDB"); // create the connection
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        // write to log
+    //        throw (ex);
+    //    }
+
+    //    cmd = CreateUserCheckCommandWithStoredProcedure("spCheckUserLogin2024", con ,email ,password);             // create the command
+
+    //    try
+    //    {
+    //        SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+    //        while (dataReader.Read())
+    //        {
+    //            User u = new User();
+    //            u.Email = dataReader["email"].ToString();
+    //            u.FirstName = dataReader["firstName"].ToString();
+    //            u.FamilyName = dataReader["familyName"].ToString();
+    //            u.Password = Convert.ToInt32(dataReader["password"]);
+
+
+    //            userList.Add(u);
+    //        }
+    //        return userList;
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        // write to log
+    //        throw (ex);
+    //    }
+
+    //    finally
+    //    {
+    //        if (con != null)
+    //        {
+    //            // close the db connection
+    //            con.Close();
+    //        }
+    //    }
+    //}
+
+    public User ValidateUser(string email, int password)
     {
         SqlConnection con;
         SqlCommand cmd;
-        List<User> userList = new List<User>();
-
+        User authenticatedUser = null;
 
         try
         {
@@ -327,31 +378,79 @@ public class DBservices
             throw (ex);
         }
 
-        cmd = CreateUserCheckCommandWithStoredProcedure("spCheckUserLogin2024", con ,email ,password);             // create the command
+        cmd = CreateUserCheckCommandWithStoredProcedure("spCheckUserLogin2024", con, email, password); // create the command
 
         try
         {
             SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
 
-            while (dataReader.Read())
+            if (dataReader.Read())
             {
-                User u = new User();
-                u.Email = dataReader["email"].ToString();
-                u.FirstName = dataReader["firstName"].ToString();
-                u.FamilyName = dataReader["familyName"].ToString();
-                u.Password = Convert.ToInt32(dataReader["password"]);
-
-
-                userList.Add(u);
+                // User is found and authenticated
+                authenticatedUser = new User
+                {
+                    Email = dataReader["email"].ToString(),
+                    FirstName = dataReader["firstName"].ToString(),
+                    FamilyName = dataReader["familyName"].ToString(),
+                    Password = Convert.ToInt32(dataReader["password"])
+                };
             }
-            return userList;
+
+            return authenticatedUser;
         }
         catch (Exception ex)
         {
             // write to log
             throw (ex);
         }
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
 
+    public User Update(string email, string firstName, string familyName, int password)
+    {
+        SqlConnection con = null;
+        SqlCommand cmd;
+        int rowsAffected = 0;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+
+            cmd = CreateUpdateUserCommandWithStoredProcedure("spUpdateUser", con, email, firstName, familyName, password); // create the command
+
+            // Execute the command
+            rowsAffected = cmd.ExecuteNonQuery();
+
+            if (rowsAffected > 0)
+            {
+                // Update operation was successful
+                return new User
+                {
+                    Email = email,
+                    FirstName = firstName,
+                    FamilyName = familyName,
+                    Password = password
+                };
+            }
+            else
+            {
+                // Update operation failed
+                return null;
+            }
+        }
+        catch (Exception ex)
+        {
+            // Handle any exceptions that occur during the update operation
+            // Log the exception
+            throw ex;
+        }
         finally
         {
             if (con != null)
@@ -363,7 +462,33 @@ public class DBservices
     }
 
 
-    private SqlCommand CreateUserCheckCommandWithStoredProcedure(String spName, SqlConnection con,string email , int password)
+    private SqlCommand CreateUpdateUserCommandWithStoredProcedure(String spName, SqlConnection con, string email, string firstName , string familyName ,int password )
+    {
+
+        SqlCommand cmd = new SqlCommand(); // create the command object
+
+        cmd.Connection = con;              // assign the connection to the command object
+
+        cmd.CommandText = spName;      // can be Select, Insert, Update, Delete 
+
+        cmd.CommandTimeout = 10;           // Time to wait for the execution' The default is 30 seconds
+
+        cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
+
+        cmd.Parameters.AddWithValue("@email", email);
+
+        cmd.Parameters.AddWithValue("@firstName", firstName);
+
+        cmd.Parameters.AddWithValue("@familyName", familyName);
+
+        cmd.Parameters.AddWithValue("@password", password);
+
+
+
+        return cmd;
+    }
+
+    private SqlCommand CreateUserCheckCommandWithStoredProcedure(String spName, SqlConnection con, string email, int password)
     {
 
         SqlCommand cmd = new SqlCommand(); // create the command object
@@ -384,6 +509,30 @@ public class DBservices
 
         return cmd;
     }
+
+
+
+    //private SqlCommand CreateUserCheckCommandWithStoredProcedure(String spName, SqlConnection con,string email , int password)
+    //{
+
+    //    SqlCommand cmd = new SqlCommand(); // create the command object
+
+    //    cmd.Connection = con;              // assign the connection to the command object
+
+    //    cmd.CommandText = spName;      // can be Select, Insert, Update, Delete 
+
+    //    cmd.CommandTimeout = 10;           // Time to wait for the execution' The default is 30 seconds
+
+    //    cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
+
+    //    cmd.Parameters.AddWithValue("@email", email);
+
+    //    cmd.Parameters.AddWithValue("@password", password);
+
+
+
+    //    return cmd;
+    //}
 
     private SqlCommand CreateInsertWithStoredProcedure(String spName, SqlConnection con, Vacation vacation)
     {

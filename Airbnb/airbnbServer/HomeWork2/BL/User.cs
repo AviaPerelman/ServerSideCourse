@@ -44,11 +44,24 @@ namespace HomeWork2.BL
             DBservices dbs = new DBservices();
             return dbs.ReadUsers();
         }
-        public List<User> ReadLoginUser(string email, int password)
-        {
+        //public List<User> ReadLoginUser(string email, int password)
+        //{
            
-             DBservices dbs = new DBservices();
-             return dbs.ReadLoginUserByEmailAndPassword(email, password);
+        //     DBservices dbs = new DBservices();
+        //     return dbs.ReadLoginUserByEmailAndPassword(email, password);
+        //}
+
+
+        public User ValidateUser(string email,int password)
+        {
+            DBservices dbs = new DBservices();
+            return dbs.ValidateUser(email, password);
+        }
+
+        public User Update(string email , string firstName , string familyName , int password)
+        {
+            DBservices dbs = new DBservices();
+            return dbs.Update(email, firstName , familyName , password);    
         }
 
 

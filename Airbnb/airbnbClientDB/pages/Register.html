@@ -53,7 +53,10 @@
             // Handle user registration form submission
             const server = "https://localhost:7207/";
 
-   
+            $("#updateBtn").click(function (event) {
+                event.preventDefault();
+                updateUserDetails(); // Call function to update user details
+            });
 
             $("#registrationForm").submit(function (event) {
                 event.preventDefault(); // Prevent default form submission
@@ -63,12 +66,47 @@
             $("#loginForm").submit(function (event) {
                 event.preventDefault(); // Prevent default form submission
                 submitUserLogin(); // Call function to submit user login
+                
             });
 
-            // Check if the user is logged in when the page loads
-            checkLoggedIn();
+
+
+            let userObject = sessionStorage.getItem('userLoggedIn');
+
+            // Check if the user object exists in session storage
+            if (userObject) {
+                // Parse the user object from JSON
+                let user = JSON.parse(userObject);
+
+                // Populate the email field in the registration form
+                let registrationEmailField = $('#email');
+                registrationEmailField.val(user.email);
+                registrationEmailField.prop('readonly', true); // Set the field as readonly
+
+                // Enable the update button
+                $('#updateBtn').prop('disabled', false);
+            } else {
+                // If the user object doesn't exist in session storage, allow editing
+                $('#email').prop('readonly', false);
+                // Disable the update button
+                $('#updateBtn').prop('disabled', true);
+            }
+           
+
+
+
+          
+          
 
             function submitUserRegistration() {
+
+                let email = $("#email").val();
+
+                if (!isValidEmail(email)) {
+                    alert("Please enter a valid email address.");
+                    return;
+                }
+
                 let newUser = {
                     firstName: $("#firstName").val(),
                     familyName: $("#familyName").val(),
@@ -80,6 +118,12 @@
                 let api = server + "api/Users";
 
                 ajaxCall("POST", api, JSON.stringify(newUser), postSCB, postECB);
+            }
+
+            function isValidEmail(email) {
+                // Regular expression for validating email format
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(email);
             }
 
 
@@ -113,11 +157,13 @@
                 let loginData = {
                     email: $("#loginEmail").val(),
                     password: $("#loginPassword").val(),
+                    firstName: "",
+                    familyName: "",
                 };
 
-                let api = server + `api/Users/${loginData.email}/${loginData.password}`;
+                let api = server + `api/Users/login`;
 
-                ajaxCall("GET", api, JSON.stringify(loginData), postSUL, postEUL);
+                ajaxCall("POST", api, JSON.stringify(loginData), postSUL, postEUL);
 
               
             }
@@ -127,18 +173,25 @@
             function postSUL(response) {
                 console.log("User login successfully:", response);
 
-                sessionStorage.setItem('userLoggedIn', JSON.stringify(response[0]));
+                sessionStorage.setItem('userLoggedIn', JSON.stringify(response));
+
+
+      
 
 
 
                 // Display a popup indicating successful registration and prompt for login
                 alert("Login successful! take a flat and vacation !");
 
+
+
                 
                 //windowref to.
-                window.location.href = 'Flats.html';
+              /*  window.location.href = 'Flats.html';*/
 
                 document.getElementById("loginForm").reset();
+
+                location.reload();
 
                 // You can optionally redirect the user to the login page
                 // window.location.href = "login.html";
@@ -154,50 +207,39 @@
             }
 
 
-            function postSCB(response) {
-                console.log("User registered successfully:", response);
+            function updateUserDetails() {
+                let updatedUser = {
+                    email: $("#email").val(),
+                    password: $("#password").val(), // No need to parseInt for password
+                    firstName: $("#firstName").val(),
+                    familyName: $("#familyName").val(),
+                };
 
-                // Display a popup indicating successful registration and prompt for login
-                alert("Registration successful! Please proceed to login.");
+                
+                let api = server + `api/Users/update`; // Construct the API endpoint URL with the email
+
+
+                ajaxCall("PUT", api, JSON.stringify(updatedUser), putSUB, putEUB);
+            }
+
+            function putSUB(response) {
+                console.log("User details updated successfully:", response);
+                alert("User details updated successfully!");
+
+                sessionStorage.setItem('userLoggedIn', JSON.stringify(response));
 
                 document.getElementById("registrationForm").reset();
-
-                // You can optionally redirect the user to the login page
-                // window.location.href = "login.html";
             }
 
-            function postECB(error) {
-                console.error("Error occurred during user registration:", error);
-
-                if (error.status === 409) {
-                    alert("This email address is already registered. Please use a different email address.");
-                } else {
-                    // Handle other errors appropriately
-                    // You might display a generic error message to the user
-                    alert("An error occurred during user registration. Please try again later.");
-                }
+            function putEUB(error) {
+                console.error("Error occurred during user details update:", error);
+                alert("An error occurred during user details update. Please try again later.");
             }
 
-            function checkLoggedIn() {
-                // Check if user details are stored in sessionStorage
-                let user = sessionStorage.getItem("user");
-                if (user) {
-                    // User is logged in
-                    console.log("User is logged in:", user);
-                    // You can display the user's details on the page or enable additional functionality
-                } else {
-                    // User is not logged in
-                    console.log("User is not logged in");
-                    // You can display a login popup or redirect the user to the login page
-                }
-            }
+           
 
-            // Function to update user details
-            function updateUserDetails() {
-                // Implement user details update logic here
-                console.log("Updating user details");
-                // You can use AJAX to send updated user details to the server
-            }
+          
+            
         });
     </script>
 </body>
