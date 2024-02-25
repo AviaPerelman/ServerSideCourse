@@ -1,0 +1,112 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+            crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="../JS/ajax.js"></script>
+    <!--<script src="../Scripts/ajaxCalls.js"></script>-->
+
+    <script>
+
+        $(document).ready(function () {
+            // קישור הקליינט לשרת
+            let port = "7207";
+            server = `https://localhost:${port}/`;
+
+            // חיווט כפתור סאבמיט
+            $("#FormId").submit(submitFlat);
+
+            getFlats();
+        });
+
+
+        function submitFlat() {
+            return false;
+        }
+
+
+        function getFlats() {
+            api = server + "api/Flats";
+
+            ajaxCall("GET", api, "", getSCB, getECB);
+        }
+
+        //function getDogs() {
+
+        //}
+
+        // success callback function
+        function getSCB(flatsList) {
+           
+
+            let flatsContainer = document.getElementById("footer");
+
+            let flatElements = flatsList.map(function (flat) {
+                console.log(flat)
+                let newDiv = document.createElement('div');
+
+                let tempFlat = `Flat detalis: Id: ${flat.id} Address: ${flat.address} City: ${flat.city} Price: ${flat.price} Numbers of rooms: ${flat.numbers_of_rooms}`
+
+                let flatBtn = document.createElement('button');
+
+                flatBtn.textContent = 'Order';
+
+                newDiv.innerHTML = tempFlat +"<br/>";
+
+                newDiv.appendChild(flatBtn);
+
+                return newDiv;
+            })
+
+            flatElements.forEach(function (div) {
+                flatsContainer.appendChild(div);
+            })
+            
+        }
+
+        // error callback function
+        function getECB(errorFromServer) {
+            console.log(errorFromServer);
+        }
+
+    </script>
+</head>
+<body>
+    
+
+    <div id="header">
+        <h4>Enter flat details</h4>
+        <form id="FormId">
+            Id <span style="color:red">*</span> <input type="number" placeholder="Flat id" required /> <br /><br/>
+            Choose a city <span style="color:red">*</span> <input list="cities" name="city" id="city" required> <br /><br/>
+
+            <datalist id="cities">
+                <option value="New York City">
+                <option value="Tal Aviv">
+                <option value="Paris">
+                <option value="Rome">
+                <option value="London">
+            </datalist>
+
+            Adress <span style="color:red">*</span> <input type="text" pattern="^[A-Za-z]{1,25}$"  oninvalid="this.setCustomValidity('Adress must be up to 25 chars')" oninput="this.setCustomValidity('')" placeholder="Adrees" required /> <br /><br/>
+            Price <span style="color:red">*</span> <input type="number" placeholder="Price $" required /> <br /><br/>
+            Number of rooms <span style="color:red">*</span><input type="number" min="1" max="8" oninvalid="this.setCustomValidity('Rooms must be up to 8')" oninput="this.setCustomValidity('')" placeholder="Numbers of rooms" required /><br />
+            <input  type="submit" value="submit"/>
+        </form>
+        
+        </div>
+
+    <div id="footer"> </div>
+    
+   
+
+</body>
+</html>
+

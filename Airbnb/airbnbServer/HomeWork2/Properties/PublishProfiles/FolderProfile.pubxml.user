@@ -4,8 +4,8 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 -->
 <Project>
   <PropertyGroup>
-    <_PublishTargetUrl>C:\Users\משתמש\OneDrive\Desktop\התמחות מערכות מידע\ServerSide\HomeWork2\HomeWork2\bin\Release\net6.0\publish\</_PublishTargetUrl>
-    <History>True|2024-01-19T08:01:02.7808640Z;</History>
+    <_PublishTargetUrl>C:\Users\משתמש\OneDrive\Desktop\ServerSideCourse\Airbnb\airbnbServer\HomeWork2\bin\Release\net6.0\publish\</_PublishTargetUrl>
+    <History>True|2024-02-10T11:01:05.8969710Z;True|2024-02-10T13:00:20.9783338+02:00;True|2024-01-19T10:01:02.7808640+02:00;</History>
     <LastFailureDetails />
   </PropertyGroup>
 </Project>
