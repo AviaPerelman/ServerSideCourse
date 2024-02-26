@@ -41,33 +41,19 @@
 
         }
 
-        public bool Insert()
+        public int Insert()
         {
-            //Logic Check ->
-
-            //if (numbers_of_rooms > 1 && price > 100)
-            //{
-            //    price *= 0.9;
-            //}
-
-            foreach (var item in FlatsList)
-            {
-                if (item.id == this.id)
-                {
-                    return false;
-                }
-            }
-
-            //if(this.numbers_of_rooms > 1 && this.price > 100 )
-            //this.price *= 0.9;
-
-            FlatsList.Add(this);
-            return true;
+            DBservices dbs = new DBservices();
+            return dbs.InsertFlat(this);
         }
 
-      
 
-        public List<Flat> Read() => FlatsList;
+
+        public List<Flat> Read()  {
+            DBservices dbs = new DBservices();
+            return dbs.ReadFlats();
+        }
+    
 
 
         public List<Flat> ReadByPriceAndCity(string city, double maxPrice)

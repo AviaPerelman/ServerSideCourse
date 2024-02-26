@@ -97,7 +97,8 @@
 
         public List<Vacation> Read()
         {
-            return vacationsList;
+            DBservices dbs = new DBservices();
+            return dbs.ReadVacations();
         }
 
         public List<Vacation> ReadByDates(DateTime from, DateTime to)
